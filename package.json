@@ -1,0 +1,37 @@
+{
+  "name": "three-js-debug-rendertarget",
+  "version": "1.0.0",
+  "description": "Some tools to debug WebGLRenderTarget, and especially download their content as images. ",
+  "main": "src/DebugRenderTarget.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "three-full": "16.0.1",
+    "upng-js": "^2.1.0"
+  },
+  "devDependencies": {
+    "fs-extra": "^7.0.1",
+    "rollup": "^0.67.1",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0",
+    "rollup-plugin-prettier": "^0.6.0"
+  },
+  "files": [
+    "src/*",
+    "dist/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maximeq/three-js-debug-rendertarget.git"
+  },
+  "browser": "./dist/browser/three-js-debug-rendertarget.js",
+  "author": "Maxime Quiblier <maximequiblier@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maximeq/three-js-debug-rendertarget/issues"
+  },
+  "homepage": "https://github.com/maximeq/three-js-debug-rendertarget#readme"
+}
