@@ -44,12 +44,24 @@ var downloadImage = function(data, filename, ext){
 };
 
 var DebugRenderTarget = {
-    downloadAsImage: function(renderer, renderTarget, filename){
+    /**
+     *  @param {THREE.WebGLRenderer} renderer The renderer used to render the renderTarget
+     *  @param {THREE.WebGLRenderTarget} renderTarget The renderTarget to read.
+     *  @param {string} filename The filename
+     *  @param {boolean} alpha True if alpha must be stored, false otherwise. If false, resulting image alpha will be 255 for every pixel.
+     */
+    downloadAsImage: function(renderer, renderTarget, filename, alpha){
         let w = renderTarget.width;
         let h = renderTarget.height;
         let buffer = new Uint8Array( w * h * 4 );
         renderer.readRenderTargetPixels( renderTarget, 0, 0, w, h, buffer );
+        if(!alpha){
+            for(var i=3; i<buffer.length; i+=4){
+                buffer[i] = 255;
+            }
+        }
         let data = BuffertoPNG(flipBufferY(buffer,w,h), w, h);
+
         downloadImage(data, filename, "png");
     }
 };
