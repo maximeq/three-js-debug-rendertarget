@@ -7678,6 +7678,7 @@
 	    }
 	};
 
+
 	var DebugRenderTarget = {
 	    /**
 	     *  @param {THREE.WebGLRenderer} renderer The renderer used to render the renderTarget
@@ -7698,6 +7699,46 @@
 	        let data = BuffertoPNG(flipBufferY(buffer,w,h), w, h);
 
 	        downloadImage(data, filename, "png");
+	    },
+
+	    /**
+	     *  @param {WebGLRenderer} renderer The renderer used to render the renderTarget
+	     *  @param {Texture} texture The texture to read.
+	     *  @param {string} filename The filename
+	     *  @param {boolean} alpha True if alpha must be stored, false otherwise. If false, resulting image alpha will be 255 for every pixel.
+	     */
+	    downloadTextureAsImage: function ( renderer, texture, filename, alpha )
+	    {
+	        let ppScene = new threeFull.Scene();
+	        let ppCamera = new threeFull.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+	        let ppMaterial = new threeFull.ShaderMaterial({
+	            vertexShader: [
+	                "varying vec2 vUv;",
+	                "",
+	                "void main() {",
+	                "    vUv = uv;",
+	                "    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+	                "}",
+	            ].join("\n"),
+	            fragmentShader: [
+	                "varying vec2 vUv;",
+	                "",
+	                "uniform sampler2D texture_AOR;",
+	                "",
+	                "void main() {",
+	                "    gl_FragColor = texture2D(texture_AOR, vUv).rgba;",
+	                "}",
+	            ].join('\n'),
+	            uniforms: {
+	                texture: { value: texture }
+	            }
+	        });
+	        ppScene.add(new threeFull.Mesh(new threeFull.PlaneGeometry(2, 2), ppMaterial));
+
+	        let renderTarget = new threeFull.WebGLRenderTarget(texture.image.width, texture.image.height);
+	        renderer.render(ppScene, ppCamera, renderTarget);
+
+	        DebugRenderTarget.downloadAsImage(renderer, renderTarget, filename, alpha);
 	    }
 	};
 
