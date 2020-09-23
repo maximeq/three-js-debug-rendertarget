@@ -101,7 +101,13 @@ var DebugRenderTarget = {
         ppScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), ppMaterial));
 
         let renderTarget = new THREE.WebGLRenderTarget(texture.image.width, texture.image.height)
-        renderer.render(ppScene, ppCamera, renderTarget)
+        if (parseInt(THREE.REVISION) > 101) {
+            let previousRenderTarget = renderer.getRenderTarget()
+            renderer.setRenderTarget(renderTarget)
+            renderer.render(scene, camera)
+            renderer.setRenderTarget(previousRenderTarget)
+        } else
+            renderer.render(ppScene, ppCamera, renderTarget)
 
         DebugRenderTarget.downloadAsImage(renderer, renderTarget, filename, alpha)
     }
