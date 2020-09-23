@@ -1,6 +1,6 @@
 {
   "name": "three-js-debug-rendertarget",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Some tools to debug WebGLRenderTarget, and especially download their content as images. ",
   "main": "src/DebugRenderTarget.js",
   "scripts": {
