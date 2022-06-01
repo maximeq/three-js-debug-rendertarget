@@ -1,7 +1,6 @@
 
-var THREE = require("three-full");
-
-var UPNG = require('upng-js');
+import { Scene, OrthographicCamera, ShaderMaterial, Mesh, PlaneGeometry, WebGLRenderTarget, REVISION } from "three";
+import UPNG from 'upng-js';
 
 var BuffertoPNG = function(buff, w, h){
     return UPNG.encode([buff.buffer], w, h, 0);
@@ -46,8 +45,8 @@ var downloadImage = function(data, filename, ext){
 
 var DebugRenderTarget = {
     /**
-     *  @param {THREE.WebGLRenderer} renderer The renderer used to render the renderTarget
-     *  @param {THREE.WebGLRenderTarget} renderTarget The renderTarget to read.
+     *  @param {WebGLRenderer} renderer The renderer used to render the renderTarget
+     *  @param {WebGLRenderTarget} renderTarget The renderTarget to read.
      *  @param {string} filename The filename
      *  @param {boolean} alpha True if alpha must be stored, false otherwise. If false, resulting image alpha will be 255 for every pixel.
      */
@@ -74,9 +73,9 @@ var DebugRenderTarget = {
      */
     downloadTextureAsImage: function ( renderer, texture, filename, alpha )
     {
-        let ppScene = new THREE.Scene();
-        let ppCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        let ppMaterial = new THREE.ShaderMaterial({
+        let ppScene = new Scene();
+        let ppCamera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        let ppMaterial = new ShaderMaterial({
             vertexShader: [
                 "varying vec2 vUv;",
                 "",
@@ -98,10 +97,10 @@ var DebugRenderTarget = {
                 texture: { value: texture }
             }
         });
-        ppScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), ppMaterial));
+        ppScene.add(new Mesh(new PlaneGeometry(2, 2), ppMaterial));
 
-        let renderTarget = new THREE.WebGLRenderTarget(texture.image.width, texture.image.height)
-        if (parseInt(THREE.REVISION) > 101) {
+        let renderTarget = new WebGLRenderTarget(texture.image.width, texture.image.height)
+        if (parseInt(REVISION) > 101) {
             let previousRenderTarget = renderer.getRenderTarget()
             renderer.setRenderTarget(renderTarget)
             renderer.render(scene, camera)
@@ -113,9 +112,7 @@ var DebugRenderTarget = {
     }
 };
 
-THREE.DebugRenderTarget = DebugRenderTarget;
-
-module.exports = DebugRenderTarget;
+export {DebugRenderTarget}
 
 
 

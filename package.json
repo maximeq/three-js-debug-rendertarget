@@ -1,23 +1,28 @@
 {
   "name": "three-js-debug-rendertarget",
-  "version": "1.2.0",
+  "version": "2.130.0",
   "description": "Some tools to debug WebGLRenderTarget, and especially download their content as images. ",
-  "main": "src/DebugRenderTarget.js",
+  "module": "src/check-wrapper.js",
+  "main": "./dist/three-js-debug-rendertarget.cjs",
+  "browser": "./dist/three-js-debug-rendertarget.min.js",
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build.js"
+    "build": "npx rollup -c",
+    "watch": "npx rollup -c -w",
+    "start": "npx http-server -c-1 -o /example/webgl_rtt_debug.html",
+    "dev": "npm run build && npm run start"
   },
   "dependencies": {
-    "three-full": "16.0.1",
+    "three": "0.130.x",
+    "three-js-checker": "1.0.x",
     "upng-js": "^2.1.0"
   },
   "devDependencies": {
-    "fs-extra": "^7.0.1",
-    "rollup": "^0.67.1",
-    "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-terser": "^3.0.0",
-    "rollup-plugin-prettier": "^0.6.0"
+    "http-server": "^14.1.1",
+    "@rollup/plugin-commonjs": "^22.0.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.75.5",
+    "rollup-plugin-terser": "^7.0.2"
   },
   "files": [
     "src/*",
@@ -27,7 +32,6 @@
     "type": "git",
     "url": "git+https://github.com/maximeq/three-js-debug-rendertarget.git"
   },
-  "browser": "./dist/browser/three-js-debug-rendertarget.js",
   "author": "Maxime Quiblier <maximequiblier@gmail.com>",
   "license": "MIT",
   "bugs": {
